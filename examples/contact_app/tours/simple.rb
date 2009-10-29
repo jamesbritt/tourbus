@@ -1,20 +1,19 @@
 class Simple < Tour
   def test_home
-    open_site_page "/"
-    click_link :text => /Enter Contact/
-    assert_page_uri_matches "/contacts"
+    visit "/"
+    assert_contain "If you click this"
+
+    click_link "Enter Contact"
+    assert_match /\/contacts/, current_page.url
   end
 
   def test_contacts
-    open_site_page "contacts"
-    submit_form(
-                :identified_by => { :action => %r{/contacts} },
-                :values => {
-                  'first_name' => "Joe",
-                  'last_name' => "Tester"
-                }
-                )
-    assert_page_uri_matches "/contacts"
-    assert_page_body_contains "Tester, Joe"
+    visit "/contacts"
+    
+    fill_in "first_name", :with => "Joe"
+    fill_in "last_name", :with => "Tester"
+    click_button 
+    
+    assert_contain "Tester, Joe"
   end
 end

@@ -1,10 +1,10 @@
 spec = Gem::Specification.new do |s|
   s.name = 'tourbus'
-  s.version = '0.0.8'
-  s.date = '2009-04-17'
+  s.version = '0.1.3'
+  s.date = '2009-10-29'
   s.summary = 'TourBus web stress-testing tool'
   s.email = "github@shinybit.com"
-  s.homepage = "http://github.com/jamesbritt/tourbus/"
+  s.homepage = "http://github.com/dbrady/tourbus/"
   s.description = "TourBus, a web stress-testing tool that combines complex 'tour' definitions with scalable concurrent testing"
   s.has_rdoc = true
   s.rdoc_options = ["--line-numbers", "--inline-source", "--main", "README.rdoc", "--title", "Tourbus - Web Stress Testing in Ruby"]
@@ -15,6 +15,8 @@ spec = Gem::Specification.new do |s|
   s.add_dependency('trollop')
   s.add_dependency('faker')
   s.add_dependency('hpricot')
+  #s.add_dependency('webrat', '=0.4.4')
+  s.add_dependency('webrat')  
 
 
   # ruby -rpp -e "pp (Dir['{README,{examples,lib,protocol,spec}/**/*.{rdoc,json,rb,txt,xml,yml}}'] + Dir['bin/*']).map.sort"
@@ -28,16 +30,6 @@ spec = Gem::Specification.new do |s|
              "lib/runner.rb",
              "lib/tour.rb",
              "lib/tour_bus.rb",
-             "lib/tour_watch.rb",
-             "lib/web-sickle/init.rb",
-             "lib/web-sickle/lib/assertions.rb",
-             "lib/web-sickle/lib/hash_proxy.rb",
-             "lib/web-sickle/lib/helpers/asp_net.rb",
-             "lib/web-sickle/lib/helpers/table_reader.rb",
-             "lib/web-sickle/lib/make_nokigiri_output_useful.rb",
-             "lib/web-sickle/lib/web_sickle.rb",
-             "lib/web-sickle/spec/lib/helpers/table_reader_spec.rb",
-             "lib/web-sickle/spec/spec_helper.rb",
-             "lib/web-sickle/spec/spec_helpers/mechanize_mock_helper.rb",
-             "lib/web-sickle/spec/web_sickle_spec.rb"]
+             "lib/tour_watch.rb"]
 end
+

@@ -7,6 +7,8 @@ Flexible and scalable website testing tool.
 * David Brady -- david.brady@leadmediapartners.com
 * Tim Harper -- tim.harper@leadmediapartners.com
 * James Britt -- james@neurogami.com
+* JT Zemp -- jtzemp@gmail.com
+
 
 == General Info
 
@@ -17,6 +19,10 @@ you'd normally associate with a regression suite or integration
 testing tool. The difference is that TourBus also scales concurrently,
 and you can perform hundreds of complicated regression tests
 simultaneously in order to thoroughly load test your website.
+
+It uses Webrat::Mechanize to run the browsing session, so you get the
+load testing you want, and all the sweetness of Webrat to write your
+tests in.
 
 == Motivation
 
@@ -39,12 +45,12 @@ better name, these are called Tours.
 * Make a folder called tours and put a file in it called simple.rb. In
   it write:
 
-  class Simple < Tour
-    def test_homepage
-      open_page "http://#{@host}/"
-      assert_page_body_contains "My Home Page"
-    end
-  end
+      class Simple < Tour
+        def test_homepage
+          visit "http://#{@host}/"
+          assert_contain "My Home Page"
+        end
+      end
 
 * Files in ./tours should have classes that match their names. E.g.
   "class BigHairyTest < Tour" belongs in ./tours/big_hairy_test.rb
@@ -77,7 +83,7 @@ of the methods in Simple three times.
 
 * You can specify multiple tours.
 
-  tourbus -c 2 -n 3 simple1 simple2 simple3
+    tourbus -c 2 -n 3 simple1 simple2 simple3
 
 * If you don't specify a tour, all tours in ./tours will be run.
 
@@ -85,7 +91,7 @@ of the methods in Simple three times.
 
 * You can run tours and filter given tests.
 
-  tourbus -c 2 -n 3 simple -t test_login,test_logout
+    tourbus -c 2 -n 3 simple -t test_login,test_logout
 
 Note that if you specify multiple tours and filter tests, the filtered
 tests will be run on all tours specified. If you do not specify a
@@ -124,6 +130,13 @@ contributors to make improvements. It is chock-full of brutal hacks,
 duplications, oversights, and kludges.
 
 == Hacks, Kludges, Known Issues, and Piles of Steaming Poo
+
+* If you give a tour a name that is pluralized, it won't work. This is
+  probably a bug worth fixing. The reason for it is that we take file
+  names and "classify" them, and e.g. "ranking_reports" becomes
+  "RankingReport", not "RankingReports". This is an artifact of
+  borrowing from Rails' activesupport libs and should probably be
+  fixed.
 
 * Mechanize 0.8 doesn't always play well together with TourBus. If you
   get "connection refused" socket errors, try upgrading to Mechanize
@@ -169,7 +182,9 @@ duplications, oversights, and kludges.
 * I'd like to remove WebSickle and replace it with Webrat. There is a
   webrat branch on the main fork (http://github.com/dbrady/tourbus)
   that is 90% complete. Once that's done we can start massaging the
-  API to be a little more friendly.
+  API to be a little more friendly. [done (but now that it is, it 
+  needs a refactoring--Tour should probably inherit from 
+  Webrat::Mechanize, not delegate to it.)]
 
 == Credits
 
@@ -182,6 +197,8 @@ duplications, oversights, and kludges.
 
 * James Britt jumped on this and revived it as it was gathering dust.
   Thanks!
+
+* JT Zemp added before_tour, after_tour. Thanks!
 
 == License
 

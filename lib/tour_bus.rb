@@ -45,6 +45,7 @@ class TourBus < Monitor
     threads = []
     tour_name = "#{total_runs} runs: #{concurrency}x#{number} of #{tours * ','}"
     started = Time.now.to_f
+    
     concurrency.times do |conc|
       log "Starting #{tour_name}"
       threads << Thread.new do
@@ -52,7 +53,7 @@ class TourBus < Monitor
         runs,tests,passes,fails,errors,start = 0,0,0,0,0,Time.now.to_f
         bm = Benchmark.measure do
           runner = Runner.new(@host, @tours, @number, runner_id, @test_list)
-          runs,tests,passes,fails,errors = runner.run_tours(@test_list)
+          runs,tests,passes,fails,errors = runner.run_tours
           update_stats runs, tests, passes, fails, errors
         end
         log "Runner Finished!"
@@ -61,6 +62,7 @@ class TourBus < Monitor
         log "Benchmark for runner #{runner_id}: #{bm}"
       end
     end
+
     log "All Runners started!"
     threads.each {|t| t.join }
     finished = Time.now.to_f
