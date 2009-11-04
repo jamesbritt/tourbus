@@ -2,21 +2,12 @@ require 'forwardable'
 require 'monitor'
 require 'common'
 
-# Assume rubygems is loaded ...
-#begin
-# gem 'webrat', '=0.4.3'
-
-#rescue Exception
-# But if not, don't force it; just move on
 require 'webrat'
-#end
-#require "webrat/core/session"
-
 require 'webrat/mechanize'
 require 'test/unit/assertions'
 
 class TourError < StandardError ; end
-
+  
 
 # A tour is essentially a test suite file. A Tour subclass
 # encapsulates a set of tests that can be done, and may contain helper
@@ -85,8 +76,10 @@ class Tour
     def initialize(host, tours, number, tour_id)
       @host, @tours, @number, @tour_id = host, tours, number, tour_id
       @tour_type = self.send(:class).to_s
-      @webrat_session = Webrat::MechanizeAdapter.new
+#      @webrat_session = Webrat::MechanizeAdapter.new
+
       @webrat_session = Webrat::Session.new(Webrat::MechanizeAdapter.new)
+    #    @webrat_session = Webrat::Session.new
       warn "I am #{self.class}"
       self.visit @host if @host
     end
@@ -150,10 +143,6 @@ class Tour
 
     protected
 
-    def session
-      @session ||= Webrat::MechanizeSession.new # ? Webrat::MechanizeAdapter.new ?
-    end
-
     def log(message)
       puts "#{Time.now.strftime('%F %H:%M:%S')} Tour ##{@tour_id}: (#{@test}) #{message}"
     end
@@ -197,6 +186,7 @@ class Tour
       end
       log "Page URI ok (#{page.uri} matches: #{uri})"
     end
+
 
     # True if page contains (or matches) the given string (or regexp)
     # 

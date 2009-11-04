@@ -39,18 +39,19 @@ class Runner
           rescue TourBusException, WebratError => e
             log("********** FAILURE IN RUN! **********")
             log e.message
-            e.backtrace.each do |trace|
-              log trace
-            end
+            # JGB turned this off.  Too noisey
+            #e.backtrace.each do |trace|
+            #  log trace
+            #end
             fails += 1
           rescue Exception => e
             log("*************************************")
             log("*********** ERROR IN RUN! ***********")
             log("*************************************")
             log e.message
-            e.backtrace.each do |trace|
-              log trace
-            end
+            #e.backtrace.each do |trace|
+            #  log trace
+            #end
             errors += 1
           end 
           log("Finished run #{number} of Tour #{tour_name}")
